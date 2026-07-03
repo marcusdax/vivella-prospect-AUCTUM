@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-parchment: #F5F0EB;
+    --color-root-earth: #5C3D2E;
+    --color-neural-amber: #D4A24A;
+    --color-dawn-rose: #E8B4B4;
+    --color-flourish-green: #7A8B6F;
+    --color-deep-bark: #3D2B1F;
+    --color-warm-stone: #C4B5A5;
+    --color-soft-mist: #E8E2DB;
+  }
+}

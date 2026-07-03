@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "VIVELLA PROSPECT",
+    "slug": "vivella-prospect",
+    "version": "1.0.0",
+    "scheme": "vivellaprospect",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F5F0EB"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vivella.prospect"
+    },
+    "android": {
+      "package": "com.vivella.prospect",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F5F0EB"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-asset",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
