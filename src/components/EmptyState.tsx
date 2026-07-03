@@ -16,7 +16,7 @@ export function EmptyState({
   return (
     <View className="items-center justify-center py-12 px-6">
       <Text className="text-xl font-sans font-medium text-root-earth text-center">{title}</Text>
-      <Text className="text-base text-warm-stone font-serif text-center mt-2 leading-relaxed">
+      <Text className="text-base text-root-earth font-serif text-center mt-2 leading-relaxed">
         {message}
       </Text>
       {actionTitle && onAction && (

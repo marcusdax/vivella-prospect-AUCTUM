@@ -10,13 +10,13 @@ function cn(...inputs: ClassValue[]) {
 export type BadgeVariant = 'critical' | 'high' | 'moderate' | 'low' | 'success' | 'warning' | 'info';
 
 const variantStyles: Record<BadgeVariant, string> = {
-  critical: 'bg-dawn-rose/30 text-root-earth',
-  high: 'bg-dawn-rose/20 text-root-earth',
-  moderate: 'bg-neural-amber/20 text-root-earth',
-  low: 'bg-soft-mist text-root-earth',
-  success: 'bg-flourish-green/20 text-root-earth',
-  warning: 'bg-dawn-rose/30 text-root-earth',
-  info: 'bg-soft-mist text-root-earth',
+  critical: 'bg-dawn-rose/30 text-deep-bark',
+  high: 'bg-dawn-rose/20 text-deep-bark',
+  moderate: 'bg-neural-amber/20 text-deep-bark',
+  low: 'bg-soft-mist text-deep-bark',
+  success: 'bg-flourish-green/20 text-deep-bark',
+  warning: 'bg-dawn-rose/30 text-deep-bark',
+  info: 'bg-soft-mist text-deep-bark',
 };
 
 export function Badge({ label, variant = 'info' }: { label: string; variant?: BadgeVariant }) {

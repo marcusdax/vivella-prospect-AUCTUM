@@ -41,9 +41,9 @@ export function Button({
     ghost: 'bg-transparent',
   };
   const textColors: Record<ButtonVariant, string> = {
-    primary: 'text-root-earth',
+    primary: 'text-deep-bark',
     secondary: 'text-root-earth',
-    ghost: 'text-neural-amber',
+    ghost: 'text-root-earth',
   };
   const textSizes: Record<ButtonSize, string> = {
     sm: 'text-sm',
@@ -64,7 +64,7 @@ export function Button({
       )}
       accessibilityRole="button"
     >
-      {loading && <ActivityIndicator size="small" className="mr-2" color="#5C3D2E" />}
+      {loading && <ActivityIndicator size="small" className="mr-2" color="#3D2B1F" />}
       <Text className={cn('font-sans font-medium', textSizes[size], textColors[variant])}>
         {title}
       </Text>
