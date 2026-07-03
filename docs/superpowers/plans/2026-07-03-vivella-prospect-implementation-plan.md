@@ -90,9 +90,9 @@ npx create-expo-app vivella-prospect --template blank-typescript
 Run:
 ```bash
 cd vivella-prospect
-npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
-npm install nativewind tailwindcss react-native-reanimated react-native-gesture-handler lucide-react-native @tanstack/react-query zustand @react-native-async-storage/async-storage
-npm install -D @types/react @types/jest jest jest-expo @testing-library/react-native ts-node typescript
+npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar expo-asset expo-font
+npm install nativewind tailwindcss react-native-reanimated react-native-gesture-handler lucide-react-native @tanstack/react-query zustand @react-native-async-storage/async-storage react-native-web react-dom
+npm install -D @types/react @types/jest jest jest-expo @testing-library/react-native ts-node typescript react-test-renderer
 ```
 
 - [ ] **Step 3: Configure `package.json` scripts**
@@ -102,7 +102,7 @@ Create `package.json`:
 {
   "name": "vivella-prospect",
   "version": "1.0.0",
-  "main": "expo-router/_entry",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -117,8 +117,12 @@ Create `package.json`:
     "expo-status-bar": "~2.0.0",
     "expo-linking": "~7.0.0",
     "expo-constants": "~17.0.0",
+    "expo-asset": "~11.0.5",
+    "expo-font": "~13.0.4",
     "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-native": "0.76.0",
+    "react-native-web": "~0.19.13",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "4.0.0",
     "react-native-reanimated": "~3.16.0",
@@ -137,6 +141,7 @@ Create `package.json`:
     "jest": "^29.7.0",
     "jest-expo": "~52.0.0",
     "@testing-library/react-native": "^12.8.0",
+    "react-test-renderer": "18.3.1",
     "typescript": "~5.3.0"
   },
   "private": true
@@ -211,8 +216,11 @@ Create `babel.config.js`:
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['babel-preset-expo'],
-    plugins: ['nativewind/babel', 'react-native-reanimated/plugin'],
+    presets: [['babel-preset-expo', { jsxImportSource: 'nativewind' }]],
+    plugins: [
+      'react-native-reanimated/plugin',
+      ['nativewind/dist/babel/css-interop', { moxy: true }],
+    ],
   };
 };
 ```
@@ -221,6 +229,7 @@ Create `tailwind.config.js`:
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  presets: [require('nativewind/preset')],
   content: ['./app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
@@ -374,9 +383,9 @@ export function Button({
     ghost: 'bg-transparent',
   };
   const textColors: Record<ButtonVariant, string> = {
-    primary: 'text-root-earth',
+    primary: 'text-deep-bark',
     secondary: 'text-root-earth',
-    ghost: 'text-neural-amber',
+    ghost: 'text-root-earth',
   };
   const textSizes: Record<ButtonSize, string> = {
     sm: 'text-sm',
@@ -397,7 +406,7 @@ export function Button({
       )}
       accessibilityRole="button"
     >
-      {loading && <ActivityIndicator size="small" className="mr-2" color="#5C3D2E" />}
+      {loading && <ActivityIndicator size="small" className="mr-2" color="#3D2B1F" />}
       <Text className={cn('font-sans font-medium', textSizes[size], textColors[variant])}>
         {title}
       </Text>
@@ -455,20 +464,22 @@ function cn(...inputs: ClassValue[]) {
 
 export type BadgeVariant = 'critical' | 'high' | 'moderate' | 'low' | 'success' | 'warning' | 'info';
 
-const variantStyles: Record<BadgeVariant, string> = {
-  critical: 'bg-dawn-rose/30 text-root-earth',
-  high: 'bg-dawn-rose/20 text-root-earth',
-  moderate: 'bg-neural-amber/20 text-root-earth',
-  low: 'bg-soft-mist text-root-earth',
-  success: 'bg-flourish-green/20 text-root-earth',
-  warning: 'bg-dawn-rose/30 text-root-earth',
-  info: 'bg-soft-mist text-root-earth',
+const backgroundStyles: Record<BadgeVariant, string> = {
+  critical: 'bg-dawn-rose/30',
+  high: 'bg-dawn-rose/20',
+  moderate: 'bg-neural-amber/20',
+  low: 'bg-soft-mist',
+  success: 'bg-flourish-green/20',
+  warning: 'bg-dawn-rose/30',
+  info: 'bg-soft-mist',
 };
 
 export function Badge({ label, variant = 'info' }: { label: string; variant?: BadgeVariant }) {
   return (
-    <View className={cn('px-2 py-1 rounded-full self-start', variantStyles[variant])}>
-      <Text className="text-xs font-sans font-medium uppercase tracking-wider">{label}</Text>
+    <View className={cn('px-2 py-1 rounded-full self-start', backgroundStyles[variant])}>
+      <Text className="text-xs font-sans font-medium uppercase tracking-wider text-deep-bark">
+        {label}
+      </Text>
     </View>
   );
 }
@@ -485,7 +496,7 @@ export function KPIStat({ value, label }: { value: string; label: string }) {
   return (
     <View className="flex-1 min-w-[120px]">
       <Text className="text-2xl font-sans font-semibold text-root-earth">{value}</Text>
-      <Text className="text-sm text-warm-stone font-sans mt-1">{label}</Text>
+      <Text className="text-sm text-root-earth font-sans mt-1">{label}</Text>
     </View>
   );
 }
@@ -511,7 +522,7 @@ export function EmptyState({
   return (
     <View className="items-center justify-center py-12 px-6">
       <Text className="text-xl font-sans font-medium text-root-earth text-center">{title}</Text>
-      <Text className="text-base text-warm-stone font-serif text-center mt-2 leading-relaxed">
+      <Text className="text-base text-root-earth font-serif text-center mt-2 leading-relaxed">
         {message}
       </Text>
       {actionTitle && onAction && (
