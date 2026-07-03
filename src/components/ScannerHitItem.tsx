@@ -29,7 +29,7 @@ export function ScannerHitItem({ hit, onPress }: { hit: ScannerHit; onPress: () 
           ))}
         </View>
       </View>
-      <ChevronRight size={20} color={colors.warmStone} />
+      <ChevronRight size={20} color={colors.rootEarth} />
     </Pressable>
   );
 }

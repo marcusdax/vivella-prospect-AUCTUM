@@ -82,7 +82,7 @@ export default function ScannerScreen() {
       </ScrollView>
 
       {isLoading ? (
-        <ActivityIndicator size="large" color={colors.neuralAmber} className="mt-12" />
+        <ActivityIndicator size="large" color={colors.rootEarth} className="mt-12" />
       ) : error ? (
         <EmptyState
           title="Could not load scanner"

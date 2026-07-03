@@ -30,7 +30,7 @@ export function MapView({ center, markers, onMarkerPress }: MapViewProps) {
         {markers?.map((m) => (
           <Text
             key={m.id}
-            className="text-neural-amber font-sans text-sm mt-1"
+            className="text-root-earth font-sans text-sm mt-1"
             onPress={() => onMarkerPress?.(m.id)}
           >
             {m.title ?? m.id}

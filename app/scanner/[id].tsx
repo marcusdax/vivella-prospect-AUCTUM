@@ -18,7 +18,7 @@ export default function ScannerDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-parchment items-center justify-center">
-        <ActivityIndicator size="large" color={colors.neuralAmber} />
+        <ActivityIndicator size="large" color={colors.rootEarth} />
       </SafeAreaView>
     );
   }
