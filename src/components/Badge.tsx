@@ -9,20 +9,22 @@ function cn(...inputs: ClassValue[]) {
 
 export type BadgeVariant = 'critical' | 'high' | 'moderate' | 'low' | 'success' | 'warning' | 'info';
 
-const variantStyles: Record<BadgeVariant, string> = {
-  critical: 'bg-dawn-rose/30 text-deep-bark',
-  high: 'bg-dawn-rose/20 text-deep-bark',
-  moderate: 'bg-neural-amber/20 text-deep-bark',
-  low: 'bg-soft-mist text-deep-bark',
-  success: 'bg-flourish-green/20 text-deep-bark',
-  warning: 'bg-dawn-rose/30 text-deep-bark',
-  info: 'bg-soft-mist text-deep-bark',
+const backgroundStyles: Record<BadgeVariant, string> = {
+  critical: 'bg-dawn-rose/30',
+  high: 'bg-dawn-rose/20',
+  moderate: 'bg-neural-amber/20',
+  low: 'bg-soft-mist',
+  success: 'bg-flourish-green/20',
+  warning: 'bg-dawn-rose/30',
+  info: 'bg-soft-mist',
 };
 
 export function Badge({ label, variant = 'info' }: { label: string; variant?: BadgeVariant }) {
   return (
-    <View className={cn('px-2 py-1 rounded-full self-start', variantStyles[variant])}>
-      <Text className="text-xs font-sans font-medium uppercase tracking-wider">{label}</Text>
+    <View className={cn('px-2 py-1 rounded-full self-start', backgroundStyles[variant])}>
+      <Text className="text-xs font-sans font-medium uppercase tracking-wider text-deep-bark">
+        {label}
+      </Text>
     </View>
   );
 }
