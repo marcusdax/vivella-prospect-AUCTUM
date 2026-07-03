@@ -1,5 +1,4 @@
-import React from 'react';
-import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator, Share, Platform, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRenderJob } from '../../src/hooks/useRenderJob';
@@ -64,7 +63,18 @@ export default function RenderDetailScreen() {
         {job.status === 'completed' && (
           <Button
             title="Share render"
-            onPress={() => {}}
+            onPress={async () => {
+              const message = `Check out this ${job.preset.replace('-', ' ')} render for ${job.property.address}`;
+              if (Platform.OS === 'web') {
+                Alert.alert('Share', `${message}\n\n${job.afterImageUrl ?? job.beforeImageUrl}`);
+              } else {
+                try {
+                  await Share.share({ message, url: job.afterImageUrl });
+                } catch {
+                  // user cancelled
+                }
+              }
+            }}
             variant="secondary"
             className="mt-6"
           />
