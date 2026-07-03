@@ -6,7 +6,7 @@ export default function Index() {
       <Text className="text-2xl font-serif text-root-earth">
         VIVELLA PROSPECT
       </Text>
-      <Text className="mt-2 text-sm text-warm-stone">
+      <Text className="mt-2 text-sm text-root-earth">
         Property intelligence command center
       </Text>
     </View>
