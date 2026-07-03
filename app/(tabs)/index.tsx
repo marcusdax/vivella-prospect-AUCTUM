@@ -77,7 +77,7 @@ export default function DashboardScreen() {
 
             <Button
               title="Open Settings"
-              onPress={() => router.push('/settings' as any)}
+              onPress={() => router.push('/settings')}
               variant="ghost"
               className="mt-4"
             />

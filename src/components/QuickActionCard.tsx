@@ -29,7 +29,7 @@ export function QuickActionCard({
           <Text className="text-sm font-sans font-semibold text-root-earth">{count}</Text>
         </View>
       )}
-      <ChevronRight size={20} color={colors.warmStone} />
+      <ChevronRight size={20} color={colors.rootEarth} />
     </Pressable>
   );
 }
