@@ -17,7 +17,7 @@ VIVELLA PROSPECT is a property-intelligence command center for real estate inves
 
 The **Probate Pipeline** is intentionally deprioritized and exposed only as a minimal case-linking screen.
 
-The app ships as a single Expo codebase that runs on iOS, Android, and web, deployed to Vercel (web) and EAS/Expo Go (mobile).
+The app ships as a single Expo codebase that runs on iOS, Android, and web, deployed to Vercel (web) and EAS/Expo Go (mobile). The project root is the app root; there is no separate `apps/` wrapper.
 
 ---
 
@@ -77,7 +77,7 @@ The app ships as a single Expo codebase that runs on iOS, Android, and web, depl
 ### 3.2 Directory Structure
 
 ```
-apps/vivella-prospect/
+vivella-prospect/
 ├── app/
 │   ├── (tabs)/
 │   │   ├── index.tsx          # Dashboard
@@ -108,7 +108,7 @@ apps/vivella-prospect/
 
 ### 3.3 Adapter Pattern
 
-No backend server in the MVP. Every data domain exposes a typed interface with a `MockAdapter` and a `LiveAdapter` where feasible:
+No backend server in the MVP: all data is fetched or generated client-side through typed adapters. Every data domain exposes a `MockAdapter` and a `LiveAdapter` where feasible:
 
 - `properties`: mock property records + Overpass building demo feed + Census/ACS tract enrichment.
 - `scanner`: mock condition-scoring engine (roof/paint/windows/structural) with confidence scores.
