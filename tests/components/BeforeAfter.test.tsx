@@ -14,6 +14,7 @@ describe('BeforeAfter', () => {
 
   it('disables after button when no afterUrl', () => {
     render(<BeforeAfter beforeUrl="https://example.com/before.jpg" />);
-    expect(screen.getByText('After').props.disabled).toBe(true);
+    const afterButton = screen.getByRole('button', { name: 'After' });
+    expect(afterButton.props.accessibilityState.disabled).toBe(true);
   });
 });
