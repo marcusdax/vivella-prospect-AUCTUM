@@ -53,6 +53,8 @@ export interface RenderJob {
   afterImageUrl?: string;
   createdAt: string;
   completedAt?: string;
+  upgrades?: string;
+  isCustomUpload?: boolean;
 }
 
 export type InvestmentStrategy = 'fix-and-flip' | 'buy-and-hold' | 'wholesale';
