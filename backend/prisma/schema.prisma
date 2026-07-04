@@ -1,0 +1,127 @@
+// backend/prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                    String                  @id @default(uuid())
+  email                 String                  @unique
+  name                  String
+  clients               Client[]
+  connections           IntegrationConnection[]
+  createdAt             DateTime                @default(now())
+}
+
+model Client {
+  id                    String                  @id @default(uuid())
+  userId                String
+  user                  User                    @relation(fields: [userId], references: [id])
+  companyName           String
+  contacts              Contact[]
+  deals                 Deal[]
+  createdAt             DateTime                @default(now())
+}
+
+model Contact {
+  id                    String                  @id @default(uuid())
+  clientId              String
+  client                Client                  @relation(fields: [clientId], references: [id])
+  name                  String
+  email                 String?
+  phone                 String?
+  role                  String?                 // "homeowner", "adjuster", "property manager"
+  createdAt             DateTime                @default(now())
+}
+
+enum DealStage {
+  LEAD
+  QUALIFIED
+  SITE_VISIT_SCHEDULED
+  ESTIMATE_SENT
+  NEGOTIATING
+  JOB_SOLD
+  IN_PROGRESS
+  COMPLETED
+  CLAIM_DENIED
+  LOST
+}
+
+model Deal {
+  id                    String                  @id @default(uuid())
+  clientId              String
+  client                Client                  @relation(fields: [clientId], references: [id])
+  analysisId            String?                 // Link back to the Recon/Prospector analysis
+  stage                 DealStage               @default(LEAD)
+  estimatedValue        Int?                    // In cents
+  estimate              Estimate?
+  assignedTo            String?                 // UserId of sales rep
+  notes                 String?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+}
+
+enum EstimateStatus {
+  DRAFT
+  SENT
+  APPROVED
+  REJECTED
+}
+
+model Estimate {
+  id                    String                  @id @default(uuid())
+  dealId                String                  @unique
+  deal                  Deal                    @relation(fields: [dealId], references: [id])
+  status                EstimateStatus          @default(DRAFT)
+  categories            EstimateCategory[]
+  totalCost             Int                     @default(0) // In cents (computed from line items)
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+}
+
+model EstimateCategory {
+  id                    String                  @id @default(uuid())
+  estimateId            String
+  estimate              Estimate                @relation(fields: [estimateId], references: [id])
+  name                  String                  // e.g., "Roofing", "Underlayment", "Gutters"
+  lineItems             LineItem[]
+  sortOrder             Int                     @default(0)
+}
+
+model LineItem {
+  id                    String                  @id @default(uuid())
+  categoryId            String
+  category              EstimateCategory        @relation(fields: [categoryId], references: [id])
+  code                  String?                 // Internal SKU/code system
+  description           String
+  quantity              Float
+  unit                  String                  // "SQ", "LF", "EA"
+  unitCost              Int                     // In cents
+  totalCost             Int                     // In cents (quantity * unitCost)
+  sortOrder             Int                     @default(0)
+}
+
+enum CrmProvider {
+  JOBNIMBUS
+  ACCULYNX
+  SALESFORCE
+}
+
+model IntegrationConnection {
+  id                    String                  @id @default(uuid())
+  userId                String
+  user                  User                    @relation(fields: [userId], references: [id])
+  provider              CrmProvider
+  accessToken           String                  // Encrypted at rest
+  refreshToken          String?                 // Encrypted at rest
+  externalOrgId         String?
+  connectedAt           DateTime                @default(now())
+  lastSyncAt            DateTime?
+  
+  @@unique([userId, provider])
+}

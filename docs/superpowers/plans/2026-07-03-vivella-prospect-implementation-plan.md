@@ -1550,7 +1550,7 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: colors.rootEarth,
-          tabBarInactiveTintColor: colors.warmStone,
+          tabBarInactiveTintColor: colors.rootEarth,
           tabBarStyle: {
             backgroundColor: colors.parchment,
             borderTopColor: colors.warmStone + '33',
@@ -1609,11 +1609,11 @@ export default function TabLayout() {
 
 Modify `app/_layout.tsx`:
 ```tsx
-import React from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { colors } from '../src/design-system/colors';
 import '../src/design-system/global.css';
 
 const queryClient = new QueryClient({
@@ -1629,7 +1629,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <StatusBar style="dark" backgroundColor="#F5F0EB" />
+        <StatusBar style="dark" backgroundColor={colors.parchment} />
         <Stack screenOptions={{ headerShown: false }} />
       </QueryClientProvider>
     </SafeAreaProvider>
@@ -1699,7 +1699,7 @@ export function QuickActionCard({
           <Text className="text-sm font-sans font-semibold text-root-earth">{count}</Text>
         </View>
       )}
-      <ChevronRight size={20} color={colors.warmStone} />
+      <ChevronRight size={20} color={colors.rootEarth} />
     </Pressable>
   );
 }
@@ -1748,7 +1748,7 @@ export default function DashboardScreen() {
         </Text>
 
         {isLoading ? (
-          <ActivityIndicator size="large" color={colors.neuralAmber} className="mt-8" />
+          <ActivityIndicator size="large" color={colors.rootEarth} className="mt-8" />
         ) : (
           <>
             <Card className="mt-6 flex-row flex-wrap gap-4">
@@ -1911,7 +1911,7 @@ export function ScannerHitItem({ hit, onPress }: { hit: ScannerHit; onPress: () 
           ))}
         </View>
       </View>
-      <ChevronRight size={20} color={colors.warmStone} />
+      <ChevronRight size={20} color={colors.rootEarth} />
     </Pressable>
   );
 }
@@ -1953,7 +1953,7 @@ export function MapView({ center, markers, onMarkerPress }: MapViewProps) {
         {markers?.map((m) => (
           <Text
             key={m.id}
-            className="text-neural-amber font-sans text-sm mt-1"
+            className="text-root-earth font-sans text-sm mt-1"
             onPress={() => onMarkerPress?.(m.id)}
           >
             {m.title ?? m.id}
@@ -2061,7 +2061,7 @@ export default function ScannerScreen() {
       </ScrollView>
 
       {isLoading ? (
-        <ActivityIndicator size="large" color={colors.neuralAmber} className="mt-12" />
+        <ActivityIndicator size="large" color={colors.rootEarth} className="mt-12" />
       ) : error ? (
         <EmptyState
           title="Could not load scanner"
@@ -2121,7 +2121,7 @@ export default function ScannerDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-parchment items-center justify-center">
-        <ActivityIndicator size="large" color={colors.neuralAmber} />
+        <ActivityIndicator size="large" color={colors.rootEarth} />
       </SafeAreaView>
     );
   }
@@ -2406,7 +2406,7 @@ export default function RenderScreen() {
       </View>
 
       {isLoading ? (
-        <ActivityIndicator size="large" color={colors.neuralAmber} className="mt-12" />
+        <ActivityIndicator size="large" color={colors.rootEarth} className="mt-12" />
       ) : jobs?.length === 0 ? (
         <EmptyState
           title="No renders yet"
@@ -2453,7 +2453,7 @@ export default function RenderDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-parchment items-center justify-center">
-        <ActivityIndicator size="large" color={colors.neuralAmber} />
+        <ActivityIndicator size="large" color={colors.rootEarth} />
       </SafeAreaView>
     );
   }
@@ -2567,7 +2567,7 @@ export function ProspectCard({ prospect, onPress }: { prospect: Prospect; onPres
         <Text className="text-base font-sans font-medium text-root-earth flex-1">
           {prospect.property.address}
         </Text>
-        <ChevronRight size={20} color={colors.warmStone} />
+        <ChevronRight size={20} color={colors.rootEarth} />
       </View>
       <Text className="text-sm text-warm-stone font-sans mt-1">
         {prospect.property.city}, {prospect.property.state}
@@ -2657,7 +2657,7 @@ export default function ProspectorScreen() {
       </ScrollView>
 
       {isLoading ? (
-        <ActivityIndicator size="large" color={colors.neuralAmber} className="mt-12" />
+        <ActivityIndicator size="large" color={colors.rootEarth} className="mt-12" />
       ) : error ? (
         <EmptyState
           title="Could not load prospects"
@@ -2729,7 +2729,7 @@ export default function ProspectDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-parchment items-center justify-center">
-        <ActivityIndicator size="large" color={colors.neuralAmber} />
+        <ActivityIndicator size="large" color={colors.rootEarth} />
       </SafeAreaView>
     );
   }
