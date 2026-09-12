@@ -1,7 +1,7 @@
 import type { RenderJob, RenderPreset } from '../../types';
 import { getPropertyById } from '../properties/mockProperties';
 
-const presetLabels: Record<RenderPreset, string> = {
+export const presetLabels: Record<RenderPreset, string> = {
   paint: 'Fresh exterior paint',
   roof: 'New architectural shingle roof',
   windows: 'Modern vinyl window replacement',

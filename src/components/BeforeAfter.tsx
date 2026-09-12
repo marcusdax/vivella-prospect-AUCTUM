@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Pressable } from 'react-native';
 import { Button } from './Button';
 
 export function BeforeAfter({
@@ -37,7 +37,7 @@ export function BeforeAfter({
         />
       </View>
       {afterUrl && (
-        <Text className="text-center text-xs text-root-earth font-sans pb-3">
+        <Text className="text-center text-xs text-warm-stone font-sans pb-3">
           Tap labels to compare
         </Text>
       )}

@@ -1,4 +1,5 @@
-import { ScrollView, Text, View, ActivityIndicator, Share, Platform, Alert } from 'react-native';
+import React from 'react';
+import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRenderJob } from '../../src/hooks/useRenderJob';
@@ -40,7 +41,7 @@ export default function RenderDetailScreen() {
         <Text className="text-3xl font-sans font-medium text-root-earth">
           {job.property.address}
         </Text>
-        <Text className="text-base text-root-earth font-sans mt-1 capitalize">
+        <Text className="text-base text-warm-stone font-sans mt-1 capitalize">
           {job.preset.replace('-', ' ')}
         </Text>
         <View className="mt-2 self-start">
@@ -63,25 +64,14 @@ export default function RenderDetailScreen() {
         {job.status === 'completed' && (
           <Button
             title="Share render"
-            onPress={async () => {
-              const message = `Check out this ${job.preset.replace('-', ' ')} render for ${job.property.address}`;
-              if (Platform.OS === 'web') {
-                Alert.alert('Share', `${message}\n\n${job.afterImageUrl ?? job.beforeImageUrl}`);
-              } else {
-                try {
-                  await Share.share({ message, url: job.afterImageUrl });
-                } catch {
-                  // user cancelled
-                }
-              }
-            }}
+            onPress={() => {}}
             variant="secondary"
             className="mt-6"
           />
         )}
         <Button
           title="View property prospect"
-          onPress={() => router.push({ pathname: '/prospector', params: { propertyId: job.propertyId } })}
+          onPress={() => router.push(`/prospector/${job.propertyId}`)}
           variant="ghost"
           className="mt-3"
         />

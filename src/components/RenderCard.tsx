@@ -19,7 +19,7 @@ export function RenderCard({ job, onPress }: { job: RenderJob; onPress: () => vo
         <Text className="text-base font-sans font-medium text-root-earth">
           {job.property.address}
         </Text>
-        <Text className="text-sm text-root-earth font-sans mt-1 capitalize">
+        <Text className="text-sm text-warm-stone font-sans mt-1 capitalize">
           {job.preset.replace('-', ' ')}
         </Text>
         <View className="mt-2">
