@@ -7,7 +7,6 @@ import { useRenderJobs } from '../../src/hooks/useRenderJobs';
 import { useProspects } from '../../src/hooks/useProspects';
 import { usePortfolio } from '../../src/hooks/usePortfolio';
 import { useAlerts } from '../../src/hooks/useAlerts';
-import type { RenderJob } from '../../src/services/renderer/types';
 import { Card } from '../../src/components/Card';
 import { KPIStat } from '../../src/components/KPIStat';
 import { QuickActionCard } from '../../src/components/QuickActionCard';
@@ -22,7 +21,7 @@ export default function DashboardScreen() {
   const portfolio = usePortfolio();
   const alerts = useAlerts();
 
-  const completedRenders = (renders.data ?? []).filter((j: RenderJob) => j.status === 'completed').length;
+  const completedRenders = (renders.data ?? []).filter((j) => j.status === 'completed').length;
   const unreadAlerts = alerts.alerts.filter((a) => !a.read).length;
 
   const isLoading = scanner.isLoading || renders.isLoading || prospects.isLoading;
@@ -33,12 +32,12 @@ export default function DashboardScreen() {
         <Text className="text-3xl font-sans font-medium text-root-earth tracking-tight">
           Property Intelligence
         </Text>
-        <Text className="text-base text-deep-bark font-sans mt-1">
+        <Text className="text-base text-warm-stone font-sans mt-1">
           Your command center for distressed assets and renovation opportunities.
         </Text>
 
         {isLoading ? (
-          <ActivityIndicator size="large" color={colors.neuralAmber} className="mt-8" />
+          <ActivityIndicator size="large" color={colors.rootEarth} className="mt-8" />
         ) : (
           <>
             <Card className="mt-6 flex-row flex-wrap gap-4">

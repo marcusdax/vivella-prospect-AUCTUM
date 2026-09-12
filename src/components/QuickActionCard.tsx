@@ -22,7 +22,7 @@ export function QuickActionCard({
     >
       <View className="flex-1">
         <Text className="text-lg font-sans font-medium text-root-earth">{title}</Text>
-        <Text className="text-sm text-deep-bark font-sans mt-1">{subtitle}</Text>
+        <Text className="text-sm text-warm-stone font-sans mt-1">{subtitle}</Text>
       </View>
       {count !== undefined && (
         <View className="bg-neural-amber/20 rounded-full px-3 py-1 mr-3">
