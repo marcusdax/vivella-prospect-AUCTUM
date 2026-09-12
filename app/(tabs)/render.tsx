@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View, ActivityIndicator, TextInput, Image, Pressable, Platform } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRenderJobs } from '../../src/hooks/useRenderJobs';
@@ -7,7 +7,6 @@ import { createRenderJob } from '../../src/services/renderer/mockRendererAdapter
 import { RenderCard } from '../../src/components/RenderCard';
 import { Button } from '../../src/components/Button';
 import { EmptyState } from '../../src/components/EmptyState';
-import { FilterChip } from '../../src/components/FilterChip';
 import { Card } from '../../src/components/Card';
 import { useAlertStore } from '../../src/stores/alertStore';
 import { colors } from '../../src/design-system/colors';
@@ -27,49 +26,23 @@ export default function RenderScreen() {
   const { data: jobs, isLoading, refetch } = useRenderJobs();
   const addAlert = useAlertStore((s) => s.addAlert);
   
-  // Custom Render states
   const [creating, setCreating] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState<RenderPreset>('paint');
   const [targetPropId, setTargetPropId] = useState<string>('prop-001');
-  const [upgradesText, setUpgradesText] = useState<string>('');
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-
-  const handleImageUpload = (event: any) => {
-    if (Platform.OS === 'web') {
-      const file = event.target.files?.[0];
-      if (file) {
-        const localUrl = URL.createObjectURL(file);
-        setUploadedImage(localUrl);
-      }
-    } else {
-      // Mock upload for native
-      setUploadedImage('https://placehold.co/600x400/5C3D2E/F5F0EB?text=Mock+Upload');
-    }
-  };
 
   const handleCreate = async () => {
     setCreating(true);
     try {
-      const activePropId = targetPropId === 'custom' ? 'custom' : targetPropId;
-      const job = await createRenderJob(
-        activePropId, 
-        selectedPreset, 
-        uploadedImage || undefined, 
-        upgradesText || undefined
-      );
+      const job = await createRenderJob(targetPropId, selectedPreset);
 
       addAlert({
         type: 'render',
         title: 'Render queued',
-        message: `${job.property.address} — ${upgradesText ? upgradesText.substring(0, 20) + '...' : selectedPreset}`,
+        message: `${job.property.address} — ${selectedPreset}`,
         targetId: job.id,
         targetScreen: 'render',
       });
-      
-      // Clear inputs
-      setUpgradesText('');
-      setUploadedImage(null);
-      
+
       refetch();
       router.push({ pathname: '/render/[id]', params: { id: job.id } });
     } finally {
@@ -101,10 +74,7 @@ export default function RenderScreen() {
             {mockProperties.map((p) => (
               <Pressable
                 key={p.id}
-                onPress={() => {
-                  setTargetPropId(p.id);
-                  setUploadedImage(null);
-                }}
+                onPress={() => setTargetPropId(p.id)}
                 className={`px-3 py-2 rounded-lg border ${
                   targetPropId === p.id 
                     ? 'bg-neural-amber/15 border-neural-amber' 
@@ -116,18 +86,6 @@ export default function RenderScreen() {
                 </Text>
               </Pressable>
             ))}
-            <Pressable
-              onPress={() => setTargetPropId('custom')}
-              className={`px-3 py-2 rounded-lg border ${
-                targetPropId === 'custom' 
-                  ? 'bg-neural-amber/15 border-neural-amber' 
-                  : 'bg-parchment border-warm-stone/20'
-              }`}
-            >
-              <Text className="text-xs font-sans font-medium text-root-earth">
-                📁 Upload Custom Photo
-              </Text>
-            </Pressable>
           </View>
 
           {/* Preset list selection */}
@@ -154,68 +112,10 @@ export default function RenderScreen() {
             ))}
           </View>
 
-          {/* Custom Image upload dropzone */}
-          {targetPropId === 'custom' && (
-            <View className="mb-4">
-              <Text className="text-xs uppercase tracking-wider text-warm-stone font-sans mb-1.5">
-                Upload Before Image
-              </Text>
-              {uploadedImage ? (
-                <View className="relative w-full h-32 rounded-xl overflow-hidden bg-slate-100">
-                  <Image source={{ uri: uploadedImage }} className="w-full h-full object-cover" />
-                  <Pressable 
-                    onPress={() => setUploadedImage(null)}
-                    className="absolute top-2 right-2 bg-deep-bark/80 rounded-full px-2 py-1"
-                  >
-                    <Text className="text-white text-[10px] font-sans">Clear</Text>
-                  </Pressable>
-                </View>
-              ) : (
-                <View className="border border-dashed border-warm-stone/40 bg-parchment rounded-xl h-32 items-center justify-center p-4">
-                  {Platform.OS === 'web' ? (
-                    <label className="cursor-pointer items-center justify-center flex flex-col w-full h-full">
-                      <span className="text-sm font-sans font-medium text-root-earth">
-                        Click to select photo
-                      </span>
-                      <span className="text-[10px] text-warm-stone mt-1">
-                        PNG, JPG up to 10MB
-                      </span>
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={handleImageUpload} 
-                        style={{ display: 'none' }} 
-                      />
-                    </label>
-                  ) : (
-                    <Pressable onPress={handleImageUpload} className="items-center">
-                      <Text className="text-sm font-sans font-medium text-root-earth">Select Image</Text>
-                    </Pressable>
-                  )}
-                </View>
-              )}
-            </View>
-          )}
-
-          {/* Upgrades Multiline Textbox */}
-          <Text className="text-xs uppercase tracking-wider text-warm-stone font-sans mb-1.5">
-            Custom Renovation Upgrades
-          </Text>
-          <TextInput
-            value={upgradesText}
-            onChangeText={setUpgradesText}
-            placeholder="e.g. Change siding to slate gray, add warm oak porch accents, replace shingles..."
-            placeholderTextColor={colors.warmStone}
-            multiline
-            numberOfLines={3}
-            className="w-full bg-parchment rounded-xl p-3 text-sm text-root-earth font-sans border border-warm-stone/20 mb-4 h-20"
-          />
-
           <Button
             title={creating ? 'Queueing Render...' : 'Generate Renovation Render'}
             onPress={handleCreate}
             loading={creating}
-            disabled={targetPropId === 'custom' && !uploadedImage}
           />
         </Card>
 
@@ -231,7 +131,7 @@ export default function RenderScreen() {
         ) : jobs?.length === 0 ? (
           <EmptyState
             title="No renders yet"
-            message="Apply a preset or customize an image upload to generate a mockup."
+            message="Apply a preset to generate a mockup."
           />
         ) : (
           <View className="px-4">

@@ -4,16 +4,6 @@ import { mockProperties } from '../properties/mockProperties';
 const issueTypes: ConditionIssueType[] = ['roof', 'paint', 'windows', 'structural', 'landscaping'];
 const severities: ConditionSeverity[] = ['critical', 'high', 'moderate', 'low'];
 
-const customScannerHits: ScannerHit[] = [];
-
-export function addCustomScannerHit(hit: ScannerHit) {
-  customScannerHits.unshift(hit);
-}
-
-export function clearCustomScannerHits() {
-  customScannerHits.length = 0;
-}
-
 function deterministicIssues(propertyId: string): ConditionIssue[] {
   const issues: ConditionIssue[] = [];
   let seed = propertyId.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
@@ -24,11 +14,11 @@ function deterministicIssues(propertyId: string): ConditionIssue[] {
     seed = (seed * 9301 + 49297) % 233280;
     const severity = severities[seed % severities.length];
     const descriptions: Record<ConditionIssueType, string> = {
-      roof: 'Visible granule loss and curling detected.',
-      paint: 'Fading and peeling paint on front facade.',
-      windows: 'Older single-pane windows with sash rot.',
-      structural: 'Minor foundation settling visible.',
-      landscaping: 'Overgrown vegetation contacting siding.',
+      roof: 'Visible granule loss and edge curling detected.',
+      paint: 'Fading and peeling paint on south-facing facade.',
+      windows: 'Older single-pane windows with visible frame rot.',
+      structural: 'Minor foundation cracking visible at driveway.',
+      landscaping: 'Overgrown vegetation contacting structure.',
     };
     seed = (seed * 9301 + 49297) % 233280;
     const confidence = 55 + (seed % 40);
@@ -60,9 +50,8 @@ export async function getScannerHits(filters?: {
   issueTypes?: string[];
   minConfidence?: number;
 }): Promise<ScannerHit[]> {
-  await new Promise((resolve) => setTimeout(resolve, 200));
-  
-  const baseHits = mockProperties.map((property) => {
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  let hits = mockProperties.map((property) => {
     const issues = deterministicIssues(property.id);
     const overallScore = Math.round(
       issues.reduce((sum, issue) => sum + severityScore(issue.severity) * issue.confidence, 0) /
@@ -77,8 +66,6 @@ export async function getScannerHits(filters?: {
       overallScore,
     };
   });
-
-  let hits = [...customScannerHits, ...baseHits];
 
   if (filters?.issueTypes?.length) {
     hits = hits.filter((hit) =>

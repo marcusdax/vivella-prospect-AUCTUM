@@ -10,7 +10,6 @@ import { MapView } from '../../src/components/MapView';
 import { Button } from '../../src/components/Button';
 import { EmptyState } from '../../src/components/EmptyState';
 import { colors } from '../../src/design-system/colors';
-import { addCustomScannerHit } from '../../src/services/scanner/mockScannerAdapter';
 import { useAlertStore } from '../../src/stores/alertStore';
 
 const issueTypes = [
@@ -85,81 +84,6 @@ export default function ScannerScreen() {
   }, [isScanning]);
 
   const handleScanComplete = () => {
-    // Generate new mock property hits inside the geofence area
-    const newPropId1 = `prop-scan-${Date.now()}-1`;
-    const newPropId2 = `prop-scan-${Date.now()}-2`;
-
-    const newHit1: ScannerHit = {
-      id: `scan-${newPropId1}`,
-      propertyId: newPropId1,
-      property: {
-        id: newPropId1,
-        address: '1849 Elm Street',
-        city: 'Austin',
-        state: 'TX',
-        zip: '78701',
-        location: { lat: 30.2675, lon: -97.7435 },
-        squareFeet: 1850,
-        yearBuilt: 1978,
-        owner: 'Robert Rigby Estate',
-        lastSaleDate: '2015-05-10',
-        lastSalePrice: 320000,
-      },
-      detectedAt: new Date().toISOString(),
-      issues: [
-        {
-          id: `${newPropId1}-issue-0`,
-          type: 'paint',
-          severity: 'high',
-          description: 'Significant peeling and weather fading detected on external siding.',
-          confidence: 0.94,
-        },
-      ],
-      overallScore: 78,
-    };
-
-    const newHit2: ScannerHit = {
-      id: `scan-${newPropId2}`,
-      propertyId: newPropId2,
-      property: {
-        id: newPropId2,
-        address: '9204 Maple Avenue',
-        city: 'Austin',
-        state: 'TX',
-        zip: '78702',
-        location: { lat: 30.2642, lon: -97.7285 },
-        squareFeet: 1450,
-        yearBuilt: 1968,
-        owner: 'S. Castillo Trust',
-        lastSaleDate: '2010-09-12',
-        lastSalePrice: 190000,
-      },
-      detectedAt: new Date().toISOString(),
-      issues: [
-        {
-          id: `${newPropId2}-issue-0`,
-          type: 'roof',
-          severity: 'critical',
-          description: 'Hole and loose shingle wear identified on south roof gable.',
-          confidence: 0.88,
-        },
-      ],
-      overallScore: 92,
-    };
-
-    // Add to the adapter storage
-    addCustomScannerHit(newHit1);
-    addCustomScannerHit(newHit2);
-
-    // Dispatch Alerts
-    addAlert({
-      type: 'scanner',
-      title: 'Geofence Scan Complete',
-      message: `2 new properties with condition warnings added.`,
-      targetId: newHit1.id,
-      targetScreen: 'scanner',
-    });
-
     // Reset and refetch
     setTimeout(() => {
       setIsScanning(false);
