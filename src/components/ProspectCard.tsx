@@ -18,7 +18,7 @@ export function ProspectCard({ prospect, onPress }: { prospect: Prospect; onPres
         </Text>
         <ChevronRight size={20} color={colors.rootEarth} />
       </View>
-      <Text className="text-sm text-root-earth font-sans mt-1">
+      <Text className="text-sm text-warm-stone font-sans mt-1">
         {prospect.property.city}, {prospect.property.state}
       </Text>
       <View className="flex-row flex-wrap mt-3">
@@ -29,19 +29,19 @@ export function ProspectCard({ prospect, onPress }: { prospect: Prospect; onPres
       </View>
       <View className="flex-row mt-3 gap-4">
         <View>
-          <Text className="text-xs text-root-earth uppercase tracking-wider">ARV</Text>
+          <Text className="text-xs text-warm-stone uppercase tracking-wider">ARV</Text>
           <Text className="text-base font-sans font-semibold text-root-earth">
             ${(prospect.estimatedArv / 1000).toFixed(0)}k
           </Text>
         </View>
         <View>
-          <Text className="text-xs text-root-earth uppercase tracking-wider">Rehab</Text>
+          <Text className="text-xs text-warm-stone uppercase tracking-wider">Rehab</Text>
           <Text className="text-base font-sans font-semibold text-root-earth">
             ${(prospect.estimatedRehabCost / 1000).toFixed(0)}k
           </Text>
         </View>
         <View>
-          <Text className="text-xs text-root-earth uppercase tracking-wider">Equity</Text>
+          <Text className="text-xs text-warm-stone uppercase tracking-wider">Equity</Text>
           <Text className="text-base font-sans font-semibold text-flourish-green">
             ${(prospect.estimatedEquity / 1000).toFixed(0)}k
           </Text>

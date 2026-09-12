@@ -7,7 +7,7 @@ import { ProspectCard } from '../../src/components/ProspectCard';
 import { FilterChip } from '../../src/components/FilterChip';
 import { EmptyState } from '../../src/components/EmptyState';
 import { colors } from '../../src/design-system/colors';
-import type { InvestmentStrategy, Prospect } from '../../src/types';
+import type { InvestmentStrategy } from '../../src/types';
 
 const strategies: { key: InvestmentStrategy; label: string }[] = [
   { key: 'fix-and-flip', label: 'Fix & Flip' },
@@ -26,7 +26,7 @@ export default function ProspectorScreen() {
         <Text className="text-2xl font-sans font-medium text-root-earth">
           Real Estate Prospector
         </Text>
-        <Text className="text-sm text-root-earth font-sans mt-1">
+        <Text className="text-sm text-warm-stone font-sans mt-1">
           Off-market opportunities ranked by investment strategy.
         </Text>
       </View>
@@ -60,11 +60,11 @@ export default function ProspectorScreen() {
         <EmptyState title="No prospects" message="Try a different strategy or relax filters." />
       ) : (
         <ScrollView className="flex-1 px-4 mt-2" contentContainerClassName="pb-8">
-          {data?.map((prospect: Prospect) => (
+          {data?.map((prospect) => (
             <ProspectCard
               key={prospect.id}
               prospect={prospect}
-              onPress={() => router.push({ pathname: '/prospector/[id]', params: { id: prospect.id } })}
+              onPress={() => router.push({ pathname: '/prospector/[id]', params: { id: prospect.id }})}
             />
           ))}
         </ScrollView>
