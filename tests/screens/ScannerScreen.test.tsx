@@ -83,7 +83,7 @@ describe('ScannerScreen', () => {
     });
 
     fireEvent.press(screen.getByText('1847 Elm Street'));
-    expect(mockPush).toHaveBeenCalledWith({ pathname: '/scanner/[id]', params: { id: 'scan-prop-001' } });
+    expect(mockPush).toHaveBeenCalledWith('/scanner/scan-prop-001');
   });
 
   it('shows empty state when no hits match filters', () => {

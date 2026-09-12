@@ -17,7 +17,7 @@ export function ScannerHitItem({ hit, onPress }: { hit: ScannerHit; onPress: () 
         <Text className="text-base font-sans font-medium text-root-earth">
           {hit.property.address}
         </Text>
-        <Text className="text-sm text-root-earth font-sans mt-1">
+        <Text className="text-sm text-warm-stone font-sans mt-1">
           {hit.property.city}, {hit.property.state} · Score {hit.overallScore}
         </Text>
         <View className="flex-row flex-wrap mt-2">

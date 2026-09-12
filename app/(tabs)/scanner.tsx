@@ -164,7 +164,7 @@ export default function ScannerScreen() {
           <MapView
             center={{ lat: 30.2672, lon: -97.7431 }}
             markers={markers}
-            onMarkerPress={(id) => router.push({ pathname: '/scanner/[id]', params: { id } })}
+            onMarkerPress={(id) => router.push(`/scanner/${id}`)}
             geofenceActive={geofenceActive}
             onGeofenceSelect={setGeofenceBounds}
           />
@@ -196,7 +196,7 @@ export default function ScannerScreen() {
             <ScannerHitItem
               key={hit.id}
               hit={hit}
-              onPress={() => router.push({ pathname: '/scanner/[id]', params: { id: hit.id } })}
+              onPress={() => router.push(`/scanner/${hit.id}`)}
             />
           ))}
         </ScrollView>

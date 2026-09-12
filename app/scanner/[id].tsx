@@ -75,12 +75,12 @@ export default function ScannerDetailScreen() {
 
         <Button
           title="Generate renovation render"
-          onPress={() => router.push({ pathname: '/render', params: { propertyId: hit.propertyId } })}
+          onPress={() => router.push(`/render?propertyId=${hit.propertyId}`)}
           className="mt-4"
         />
         <Button
           title="View as investment prospect"
-          onPress={() => router.push({ pathname: '/prospector', params: { propertyId: hit.propertyId } })}
+          onPress={() => router.push(`/prospector/${hit.propertyId}`)}
           variant="secondary"
           className="mt-3"
         />

@@ -81,10 +81,10 @@ describe('ScannerDetailScreen', () => {
     );
 
     fireEvent.press(screen.getByText('Generate renovation render'));
-    expect(mockPush).toHaveBeenCalledWith({ pathname: '/render', params: { propertyId: 'prop-001' } });
+    expect(mockPush).toHaveBeenCalledWith('/render?propertyId=prop-001');
 
     fireEvent.press(screen.getByText('View as investment prospect'));
-    expect(mockPush).toHaveBeenCalledWith({ pathname: '/prospector', params: { propertyId: 'prop-001' } });
+    expect(mockPush).toHaveBeenCalledWith('/prospector/prop-001');
   });
 
   it('shows empty state when hit is not found', () => {

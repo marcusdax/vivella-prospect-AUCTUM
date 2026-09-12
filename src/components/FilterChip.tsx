@@ -31,7 +31,7 @@ export function FilterChip({
       <Text
         className={cn(
           'text-sm font-sans font-medium',
-          active ? 'text-deep-bark' : 'text-root-earth'
+          active ? 'text-root-earth' : 'text-warm-stone'
         )}
       >
         {label}
