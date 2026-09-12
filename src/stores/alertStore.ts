@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Alert } from '../types';
+import type { Alert, AlertType } from '../types';
 
 interface AlertState {
   alerts: Alert[];
