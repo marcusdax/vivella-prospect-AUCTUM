@@ -63,9 +63,9 @@ describe('AlertsScreen', () => {
 
     expect(screen.getByText('Roof issue found')).toBeTruthy();
     expect(screen.getByText('Granule loss detected at 1847 Elm Street.')).toBeTruthy();
-    expect(screen.getByText(/7\/1\/2026/)).toBeTruthy();
+    expect(screen.getAllByText(/7\/1\/2026/)).toHaveLength(2);
     expect(screen.getByText('scanner')).toBeTruthy();
-    expect(screen.getByText('completed')).toBeTruthy();
+    expect(screen.getByText('render')).toBeTruthy();
   });
 
   it('shows the clear button only when alerts exist', () => {
