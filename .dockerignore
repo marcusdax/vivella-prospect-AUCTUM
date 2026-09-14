@@ -1,0 +1,8 @@
+# Exclude node_modules and other local artifacts
+node_modules
+.git
+dist
+.expo
+*.log
+.DS_Store
+.env
